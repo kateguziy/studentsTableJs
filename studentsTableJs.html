@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ДЗ10</title>
+
+    <style>
+      #studentsTab {
+        border: 1px solid steelblue;
+        border-collapse: collapse;
+        width: 800px;
+      }
+      #studentsTab td, tr {
+        border: 1px solid steelblue;
+        padding: 5px;
+      }
+      .inputForm {
+        border: 1px solid steelblue;
+        width: 400px;
+        padding: 10px;
+      }
+      .field {
+        clear:both;
+        text-align:right;
+        }
+        label {
+            float:left;
+            }
+      #nameStudent, #dataBirthday, #gender {
+        border: 1px solid steelblue;
+        width: 200px;
+      }
+      label {
+        float: left;
+      }
+    </style>
+
+    <script>
+      function addStudent() {
+        let nameStudent = document.getElementById("nameStudent").value
+        const dataBirthday = document.getElementById("dataBirthday").value
+        const gender = document.getElementById("gender").value
+        const age = countAge(dataBirthday);
+        var tr = document.createElement("tr");
+        var cols = ["nameStudent", "gender", "dataBirthday"];
+        for (var q=0; q<cols.length; ++q) {
+        var td = document.createElement("td");
+        td.textContent = document.getElementById(cols[q]).value;
+        tr.appendChild(td);
+        }
+        var td = document.createElement("td");
+        td.textContent = age;
+        tr.appendChild(td);
+      document.getElementById('add').appendChild(tr);
+      document.getElementById('usersAge').innerHTML = sumAge();
+      }
+
+      function countAge(dataBirthday) {
+        dataBirthday = Date.parse(dataBirthday);
+        dataBirthday = new Date(dataBirthday);
+        var today = new Date();
+        const age = today.getFullYear() - dataBirthday.getFullYear();
+        return age;
+      }
+
+      function sumAge() {
+        let sumAge = 0;
+        var table = document.getElementById("add");
+        for (var i = 0; i < table.rows.length; i++){
+          sumAge += parseInt(table.rows[i].cells[3].innerText);
+        }
+        sumAge /= table.rows.length;
+        return sumAge;
+    }
+</script>
+</head>
+
+<body>
+<h2>Форма добавления информации о студенте</h2>
+<p>
+<div class="inputForm">
+    <div class="field">
+        <label>Имя студента: </label>
+        <input id = "nameStudent" name = "name" type="text">
+    </div>
+    </p>
+    <p>
+    <div class="field">
+        <label>Дата рождения: </label>
+        <input id ="dataBirthday" type="date" value="1998-04-24">
+    </div>
+    </p>
+    <p>
+    <div class="field">
+        <label>
+            Пол:</label>
+        <select name="gender" id="gender">
+            <option value="мужчина" selected>мужской</option>
+            <option value="женщина">женский</option>
+        </select>
+    </div>
+    <button onclick="addStudent()">Добавить</button>
+    </p>
+</div>
+<h2>Таблица студентов</h2>
+<table id="studentsTab" class="students-tab">
+    <thead>
+    <tr>
+        <td>Имя студента</td>
+        <td>Пол</td>
+        <td>Дата рождения</td>
+        <td>Возраст</td>
+    </tr>
+    </thead>
+    <tbody id="add">
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3">Средний возраст студентов</td>
+        <td id="usersAge"></td>
+    </tr>
+    </tfoot>
+</table>
+</body>
+</html>
+
